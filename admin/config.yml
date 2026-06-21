@@ -1,0 +1,26 @@
+backend:
+  name: git-gateway
+  branch: main # Asegúrate de que este sea el nombre de tu rama principal en GitHub
+
+media_folder: "assets/images" # Carpeta donde se guardarán las fotos de tus productos
+public_folder: "/assets/images"
+
+collections:
+  - name: "productos"
+    label: "Mis Productos"
+    folder: "content/productos" # Carpeta donde se guardarán los datos de cada producto
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Nombre del Producto", name: "titulo", widget: "string"}
+      - {label: "Precio", name: "precio", widget: "number"}
+      - {label: "Imagen del Producto", name: "imagen", widget: "image"}
+      - {label: "Descripción", name: "descripcion", widget: "text"}
+
+  - name: "configuracion"
+    label: "Configuración General"
+    folder: "content/config"
+    create: true
+    fields:
+      - {label: "Mensaje de Bienvenida", name: "bienvenida", widget: "string"}
+      - {label: "Número de WhatsApp", name: "whatsapp", widget: "string"}

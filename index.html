@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TCY8CB7TM3"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-TCY8CB7TM3');
+    </script>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>altimonar | Tienda Creativa</title>
+    <style>
+        :root {
+            --bg-color: #0a0a0c;
+            --surface-color: #141419;
+            --accent-color: #ff3e6c;
+            --accent-glow: rgba(255, 62, 108, 0.4);
+            --text-main: #f5f5f7;
+            --text-muted: #8e8e93;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            overflow-x: hidden;
+        }
+
+        .bg-glow {
+            position: fixed;
+            top: -10%;
+            right: -10%;
+            width: 50vw;
+            height: 50vw;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 5%;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            text-transform: lowercase;
+            text-decoration: none;
+            color: var(--text-main);
+        }
+
+        .logo span {
+            color: var(--accent-color);
+        }
+
+        .cart-status {
+            background: var(--surface-color);
+            padding: 0.6rem 1.2rem;
+            border-radius: 50px;
+            border: 1px solid rgba(255,255,255,0.1);
+            text-decoration: none;
+            color: var(--text-main);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .cart-status:hover {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        .hero {
+            padding: 5rem 5% 3rem 5%;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero p {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2.5rem;
+            padding: 2rem 5% 5rem 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .product-card {
+            background: var(--surface-color);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid rgba(255,255,255,0.03);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 62, 108, 0.2);
+        }
+
+        .product-tag {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .product-title {
+            font-size: 1.4rem;
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+        }
+
+        .product-desc {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.4;
+        }
+
+        .product-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .product-price {
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .btn-add {
+            background: transparent;
+            color: var(--text-main);
+            border: 1px solid var(--text-main);
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .btn-add:hover {
+            background: var(--text-main);
+            color: var(--bg-color);
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: -300px;
+            background: var(--accent-color);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: right 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-weight: 600;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            right: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-glow"></div>
+
+    <header>
+        <a href="https://altimonar.netlify.app" class="logo">altimonar<span>.</span></a>
+        <!-- Redirección directa al sub-enlace -->
+        <a href="/carrito/" class="cart-status">
+            Carrito (<span id="cart-count">0</span>)
+        </a>
+    </header>
+
+    <section class="hero">
+        <h1>¡ALTIMONAR LA MEJOR OPCIÓN PARA IMPRIMIR TUS IDEAS!</h1>
+        <p>Un servicio de alta calidad. Explora todos nuestros servicios disponibles para ti en Altimonar.</p>
+    </section>
+
+    <main class="products-grid" id="products-container"></main>
+
+    <div class="toast" id="toast">¡Producto añadido al carrito!</div>
+
+    <script>
+        const productos = [
+            { id: 1, tag: "Digital", title: "Personalizados", desc: "Planilla de stickers de vinil (1.45m x 45cm).", price: 380.00 },
+            { id: 2, tag: "Diseño", title: "Diseño Publicitario", desc: "Creación o adaptación de archivos listos para impresión.", price: 150.00 },
+            { id: 3, tag: "Servicios", title: "Corte de Vinil", desc: "Corte de precisión para logotipos, textos o señalética.", price: 200.00 }
+        ];
+
+        // Cargar carrito desde localStorage o inicializarlo vacío
+        let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+        document.getElementById('cart-count').innerText = carrito.length;
+
+        const container = document.getElementById('products-container');
+        productos.forEach(prod => {
+            container.innerHTML += `
+                <div class="product-card">
+                    <div>
+                        <div class="product-tag">${prod.tag}</div>
+                        <div class="product-title">${prod.title}</div>
+                        <p class="product-desc">${prod.desc}</p>
+                    </div>
+                    <div class="product-footer">
+                        <div class="product-price">$${prod.price.toFixed(2)}</div>
+                        <button class="btn-add" onclick="agregarAlCarrito(${prod.id})">Agregar</button>
+                    </div>
+                </div>
+            `;
+        });
+
+        function agregarAlCarrito(id) {
+            const producto = productos.find(p => p.id === id);
+            carrito.push(producto);
+            
+            // Guardar persistentemente para que la página de /carrito pueda leerlo
+            localStorage.setItem('carrito', JSON.stringify(carrito));
+            document.getElementById('cart-count').innerText = carrito.length;
+            
+            showToast();
+        }
+
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+    </script>
+</body>
+</html>

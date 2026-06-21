@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TCY8CB7TM3"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-TCY8CB7TM3');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>altimonar | Tu Carrito de Compras</title>
+    <style>
+        :root {
+            --bg-color: #0a0a0c;
+            --surface-color: #141419;
+            --accent-color: #ff3e6c;
+            --accent-glow: rgba(255, 62, 108, 0.4);
+            --text-main: #f5f5f7;
+            --text-muted: #8e8e93;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 5%;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            text-transform: lowercase;
+            text-decoration: none;
+            color: var(--text-main);
+        }
+
+        .logo span {
+            color: var(--accent-color);
+        }
+
+        .btn-back {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        .btn-back:hover {
+            color: var(--text-main);
+        }
+
+        .cart-container {
+            max-width: 600px;
+            margin: 4rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .cart-card {
+            background: var(--surface-color);
+            border-radius: 16px;
+            padding: 2.5rem;
+            border: 1px solid rgba(255,255,255,0.03);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+        }
+
+        .cart-items {
+            margin-bottom: 2rem;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .item-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .item-price {
+            color: var(--accent-color);
+            font-size: 0.95rem;
+            margin-top: 0.2rem;
+        }
+
+        .btn-delete {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        .btn-delete:hover {
+            color: #ff3e3e;
+        }
+
+        .total-section {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 2px dashed rgba(255,255,255,0.1);
+        }
+
+        .btn-checkout {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 1.2rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 2rem;
+            width: 100%;
+            text-align: center;
+            transition: opacity 0.2s;
+        }
+
+        .btn-checkout:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="/" class="logo">altimonar<span>.</span></a>
+        <a href="/" class="btn-back">← Volver a la tienda</a>
+    </header>
+
+    <main class="cart-container">
+        <div class="cart-card">
+            <h2>Tu Carrito</h2>
+            <div class="cart-items" id="cart-items-container">
+                <!-- Se rellena con JS -->
+            </div>
+            
+            <div class="total-section">
+                <span>Total:</span>
+                <span id="cart-total">$0.00</span>
+            </div>
+
+            <button class="btn-checkout" onclick="procesarCompra()">Proceder al Pago</button>
+        </div>
+    </main>
+
+    <script>
+        // Obtener elementos desde el localStorage compartido
+        let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+
+        function renderCarrito() {
+            const itemsContainer = document.getElementById('cart-items-container');
+            itemsContainer.innerHTML = '';
+            
+            if (carrito.length === 0) {
+                itemsContainer.innerHTML = '<p style="color: var(--text-muted); text-align:center; padding: 2rem 0;">El carrito está vacío.</p>';
+            }
+
+            let total = 0;
+            carrito.forEach((item, index) => {
+                total += item.price;
+                itemsContainer.innerHTML += `
+                    <div class="cart-item">
+                        <div>
+                            <div class="item-title">${item.title}</div>
+                            <div class="item-price">$${item.price.toFixed(2)}</div>
+                        </div>
+                        <button class="btn-delete" onclick="eliminarDelCarrito(${index})">Eliminar</button>
+                    </div>
+                `;
+            });
+
+            document.getElementById('cart-total').innerText = `$${total.toFixed(2)}`;
+        }
+
+        function eliminarDelCarrito(index) {
+            carrito.splice(index, 1);
+            localStorage.setItem('carrito', JSON.stringify(carrito));
+            renderCarrito();
+        }
+
+        function procesarCompra() {
+            if (carrito.length === 0) {
+                alert("Añade algún producto antes de pagar.");
+                return;
+            }
+            
+            let mensaje = "Orden de Compra Altimonar:";
+            carrito.forEach(i => mensaje += `\n- ${i.title} ($${i.price})`);
+            
+            alert(mensaje + "\n\n¡Redirigiéndote a la plataforma de pago!");
+            
+            // Vaciar carrito tras la compra (opcional)
+            localStorage.removeItem('carrito');
+            window.location.href = "/";
+        }
+
+        // Ejecutar al cargar la página
+        renderCarrito();
+    </script>
+</body>
+</html>
